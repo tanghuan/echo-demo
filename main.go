@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 
-	"github.com/labstack/echo/v4"
-
+	_ "skinshub-api/persist"
+	"skinshub-api/router"
 	"skinshub-api/utils"
 )
 
@@ -25,11 +24,7 @@ func main() {
 	fmt.Println(res)
 
 	// instance echo
-	e := echo.New()
-
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello World!")
-	})
+	e := router.New()
 
 	e.Logger.Fatal(e.Start(":8000"))
 }
