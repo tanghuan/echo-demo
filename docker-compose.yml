@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  skinshub-api:
+    image: skinkshub-api:latest
+    container_name: skinshub-api
+    build: .
+    ports:
+      - 8000:8000
