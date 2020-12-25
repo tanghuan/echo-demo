@@ -27,6 +27,6 @@ RUN go build -o main
 # 4. 生产镜像
 FROM scratch
 WORKDIR /opt/app
-COPY --from=skinshub-api-build /opt/app .
+COPY --from=skinshub-api-build /opt/app/main .
 EXPOSE 1323
 CMD ["./main"]
