@@ -1,6 +1,7 @@
 package apis
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -16,6 +17,7 @@ import (
 )
 
 func init() {
+	fmt.Println("package apis user_apis init ......")
 	// persist.Con.Create(&entities.User{
 	// 	Status:   1,
 	// 	Username: "tanghuan",
@@ -86,7 +88,7 @@ func Login(c echo.Context) error {
 	// Set claims
 	claims := token.Claims.(jwt.MapClaims)
 	claims["username"] = user.Username
-	claims["admin"] = false
+	claims["role"] = "User"
 	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 
 	// Generate encoded token and send it as response.

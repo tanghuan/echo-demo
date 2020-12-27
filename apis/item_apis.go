@@ -10,8 +10,8 @@ import (
 func init() {
 	fmt.Println("package apis init aliyun oss client ......")
 	endpoint := "http://dev.oss-cn-chengdu.aliyuncs.com"
-	accessKeyID := "asdfasdf"
-	accessKeySecret := "asdfasdf"
+	accessKeyID := "asdf"
+	accessKeySecret := "asdf"
 	client, err := oss.New(endpoint, accessKeyID, accessKeySecret, oss.UseCname(true))
 	if err != nil {
 		fmt.Println("Error:", err)

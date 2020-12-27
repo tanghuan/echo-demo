@@ -1,0 +1,2 @@
+# users rest api
+GET http://localhost:8000/users
