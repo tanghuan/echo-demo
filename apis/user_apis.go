@@ -10,6 +10,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 
+	"skinshub-api/config"
 	"skinshub-api/models/dtos"
 	"skinshub-api/models/vos"
 	"skinshub-api/persist"
@@ -18,15 +19,15 @@ import (
 
 func init() {
 	fmt.Println("package apis user_apis init ......")
-	// persist.Con.Create(&entities.User{
-	// 	Status:   1,
-	// 	Username: "tanghuan",
-	// 	Password: "admin",
-	// 	Nickname: "tang",
-	// 	Gender:   1,
-	// 	Role:     1,
-	// 	Avatar:   "https://oss.yuefantutor.com",
-	// })
+	persist.Con.Create(&entities.User{
+		Status:   1,
+		Username: "tanghuan",
+		Password: "admin",
+		Nickname: "tang",
+		Gender:   1,
+		Role:     1,
+		Avatar:   "https://oss.yuefantutor.com",
+	})
 }
 
 // Find 查询用户列表
@@ -83,17 +84,26 @@ func Login(c echo.Context) error {
 	}
 
 	// Create token
-	token := jwt.New(jwt.SigningMethodHS256)
+	token := jwt.New(jwt.SigningMethodRS256)
 
 	// Set claims
-	claims := token.Claims.(jwt.MapClaims)
-	claims["username"] = user.Username
-	claims["role"] = "Admin"
-	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+	// claims := token.Claims.(jwt.MapClaims)
+	// claims["username"] = user.Username
+	// claims["role"] = "Admin"
+	// claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+
+	token.Claims = &dtos.JwtClaimsDto{
+		&jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+		},
+		user.Username,
+		"Admin",
+	}
 
 	// Generate encoded token and send it as response.
-	t, err := token.SignedString([]byte("secret"))
+	t, err := token.SignedString(config.SignKey)
 	if err != nil {
+		log.Fatal(err)
 		return err
 	}
 

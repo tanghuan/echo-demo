@@ -5,8 +5,11 @@ import (
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/dgrijalva/jwt-go/request"
 	"github.com/labstack/echo/v4"
 
+	"skinshub-api/config"
+	"skinshub-api/models/dtos"
 	"skinshub-api/utils"
 )
 
@@ -15,23 +18,18 @@ func Auth(roles ...string) func(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			fmt.Println("==================Auth Middleware==================")
-			user := c.Get("user")
-			if user == nil {
-				return echo.NewHTTPError(http.StatusUnauthorized)
-			}
-			token, ok := user.(*jwt.Token)
-			if !ok {
-				return echo.NewHTTPError(http.StatusUnauthorized)
-			}
-			mapClaims := token.Claims.(jwt.MapClaims)
 
-			role, ok := mapClaims["role"].(string)
-			if !ok {
+			token, err := request.ParseFromRequestWithClaims(c.Request(), request.AuthorizationHeaderExtractor, &dtos.JwtClaimsDto{}, func(token *jwt.Token) (interface{}, error) {
+				return config.VerifyKey, nil
+			})
+			if err != nil {
 				return echo.NewHTTPError(http.StatusUnauthorized)
 			}
+
+			claims := token.Claims.(*dtos.JwtClaimsDto)
 
 			// check role
-			hasPermission := utils.ContainsString(roles, role)
+			hasPermission := utils.ContainsString(roles, claims.Role)
 			if !hasPermission {
 				return echo.NewHTTPError(http.StatusUnauthorized)
 			}

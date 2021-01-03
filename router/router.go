@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 
 	"skinshub-api/apis"
 	"skinshub-api/middlewares"
@@ -23,12 +22,8 @@ func New() *echo.Echo {
 	router.POST("/login", apis.Login)
 
 	router.GET("/secure", func(c echo.Context) error {
-
-		// TODO
 		return c.String(http.StatusOK, "Secure")
-	}, middleware.JWTWithConfig(middleware.JWTConfig{
-		SigningKey: []byte("secret"),
-	}), middlewares.Auth("Admin"))
+	}, middlewares.Auth("Admin"))
 
 	return router
 }
