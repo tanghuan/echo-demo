@@ -23,7 +23,7 @@ func New() *echo.Echo {
 
 	router.GET("/secure", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Secure")
-	}, middlewares.Auth("Admin"))
+	}, middlewares.Auth("Admin", "User"))
 
 	return router
 }

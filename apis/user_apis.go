@@ -97,7 +97,7 @@ func Login(c echo.Context) error {
 			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
 		},
 		user.Username,
-		"Admin",
+		"User",
 	}
 
 	// Generate encoded token and send it as response.

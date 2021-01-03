@@ -27,6 +27,8 @@ func Auth(roles ...string) func(next echo.HandlerFunc) echo.HandlerFunc {
 				return echo.NewHTTPError(http.StatusUnauthorized)
 			}
 
+			fmt.Println("claims ======> ", claims)
+
 			// check role
 			hasPermission := utils.ContainsString(roles, claims.Role)
 			if !hasPermission {
