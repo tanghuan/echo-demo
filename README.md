@@ -12,3 +12,8 @@ https://goproxy.io/
 
 https://golang.org/doc/code.html
 https://blog.golang.org/using-go-modules
+
+# jwt
+http://jwt.io/  
+https://vertx.io/docs/vertx-auth-jwt/java/  
+https://github.com/dgrijalva/jwt-go/blob/master/http_example_test.go  
