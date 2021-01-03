@@ -19,14 +19,13 @@ func Auth(roles ...string) func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			fmt.Println("==================Auth Middleware==================")
 
-			token, err := request.ParseFromRequestWithClaims(c.Request(), request.AuthorizationHeaderExtractor, &dtos.JwtClaimsDto{}, func(token *jwt.Token) (interface{}, error) {
+			claims := dtos.JwtClaimsDto{}
+			_, err := request.ParseFromRequestWithClaims(c.Request(), request.AuthorizationHeaderExtractor, &claims, func(token *jwt.Token) (interface{}, error) {
 				return config.VerifyKey, nil
 			})
 			if err != nil {
 				return echo.NewHTTPError(http.StatusUnauthorized)
 			}
-
-			claims := token.Claims.(*dtos.JwtClaimsDto)
 
 			// check role
 			hasPermission := utils.ContainsString(roles, claims.Role)
