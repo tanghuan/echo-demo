@@ -7,3 +7,10 @@ services:
     build: .
     ports:
       - 8000:8000
+    environment:
+      - DatabaseHost=192.168.2.24
+      - DatabasePort=3306
+      - DatabaseUsername=root
+      - DatabasePassword=admin
+    volumes:
+      - ./config:/opt/app/config
