@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	_ "skinshub-api/jobs"
 	_ "skinshub-api/persist"
 	"skinshub-api/router"
 	"skinshub-api/utils"
