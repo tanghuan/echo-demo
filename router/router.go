@@ -25,5 +25,8 @@ func New() *echo.Echo {
 		return c.String(http.StatusOK, "Secure")
 	}, middlewares.Auth("Admin", "User"))
 
+	// Socket
+	router.GET("/socket", apis.HandleConnect)
+
 	return router
 }

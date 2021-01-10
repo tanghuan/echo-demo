@@ -11,7 +11,7 @@ func init() {
 
 	scheduler := gocron.NewScheduler(time.UTC)
 
-	scheduler.Every(3).Second().Do(sync)
+	scheduler.Every(30).Minutes().Do(sync)
 
 	scheduler.StartAsync()
 }

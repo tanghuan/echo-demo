@@ -9,6 +9,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 
 	"skinshub-api/config"
 	"skinshub-api/models/dtos"
@@ -32,6 +33,10 @@ func init() {
 
 // Find 查询用户列表
 func Find(c echo.Context) error {
+
+	persist.Con.Transaction(func(tx *gorm.DB) error {
+		return nil
+	})
 
 	dto := &dtos.PageDto{}
 
