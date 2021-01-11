@@ -39,7 +39,22 @@ func write(conn *websocket.Conn) {
 
 		formatTime := t.Format("2006-01-02 15:04:05")
 		fmt.Println("time = ", formatTime)
+
 		err := conn.WriteMessage(websocket.TextMessage, []byte("SendAt: "+formatTime))
+		if err != nil {
+			fmt.Println("write error: ", err)
+			return
+		}
+	}
+}
+
+func writePing(conn *websocket.Conn) {
+	ch := time.Tick(1 * time.Second)
+	for t := range ch {
+
+		formatTime := t.Format("2006-01-02 15:04:05")
+		fmt.Println("time = ", formatTime)
+		err := conn.WriteMessage(websocket.PingMessage, []byte{})
 		if err != nil {
 			fmt.Println("write error: ", err)
 			return
@@ -56,7 +71,9 @@ func HandleConnect(c echo.Context) error {
 
 	go read(conn)
 
-	go write(conn)
+	// go write(conn)
+
+	go writePing(conn)
 
 	return nil
 }
