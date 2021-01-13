@@ -20,6 +20,7 @@ func read(conn *websocket.Conn) {
 		msgType, msg, err := conn.ReadMessage()
 
 		fmt.Println("msgType = ", msgType)
+		fmt.Println("msg = ", string(msg))
 
 		if err != nil {
 			fmt.Println("read error: ", err)
@@ -29,7 +30,7 @@ func read(conn *websocket.Conn) {
 
 		fmt.Printf("msg = %s \n", msg)
 
-		conn.WriteMessage(websocket.TextMessage, []byte("Success."))
+		conn.WriteMessage(websocket.TextMessage, msg)
 	}
 }
 
